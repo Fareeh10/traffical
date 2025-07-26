@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffikkal</title>
+    <!-- Tailwind CSS CDN -->
+     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="main.css">
+
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6 flex-grow">
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-8 mt-4 bg-white p-4 rounded-xl shadow-lg">
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-4 sm:mb-0">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+                    Traffikkal
+                </span>
+            </h1>
+            <button id="login-controller-button"
+                    class="bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 transition duration-300 ease-in-out transform hover:scale-105">
+                Admin Login
+            </button>
+        </header>
+
+        <!-- New: Hero Section -->
+        <section class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-8 rounded-2xl shadow-xl mb-8 text-center transform transition-all duration-500 ease-in-out hover:scale-[1.01]">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Navigate Kottakkal Smarter.</h2>
+            <p class="text-lg md:text-xl opacity-90">Get real-time traffic insights, plan efficient routes, and report issues to improve your daily commute.</p>
+        </section>
+
+        <div class="bg-white p-8 rounded-2xl shadow-xl mb-8 border border-gray-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label for="start" class="block text-sm font-medium text-gray-700 mb-2">Starting Point:</label>
+                    <input type="text" id="start" placeholder="e.g., Kottakkal Bus Stand"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out shadow-sm">
+                </div>
+                <div>
+                    <label for="end" class="block text-sm font-medium text-gray-700 mb-2">Destination:</label>
+                    <input type="text" id="end" placeholder="e.g., Kottakkal Ayurveda Hospital"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out shadow-sm">
+                </div>
+            </div>
+
+            <div class="flex items-end mt-4">
+                <button id="get-briefing"
+                        class="w-full bg-gradient-to-r from-green-500 to-teal-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:from-green-600 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 ease-in-out transform hover:scale-80">
+                    Get Traffic Briefing ✨
+                </button>
+            </div>
+
+            <div id="message-box" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative hidden mb-4 mt-4" role="alert">
+                <strong class="font-bold">Error!</strong>
+                <span class="block sm:inline" id="message-text"></span>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onclick="document.getElementById('message-box').classList.add('hidden')">
+                    <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                </span>
+            </div>
+
+            <div id="map-preview-panel" class="mt-8 bg-gray-50 p-6 rounded-lg shadow-inner border border-gray-200 hidden panel-transition">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Route Preview:</h2>
+                <!-- Reverted src to the uploaded image path -->
+                <img id="map-preview-image" src="image.png" alt="Kottakkal Map Preview">
+                <p class="text-gray-600 text-sm mt-2 text-center">Refer to the map image for visual context.</p>
+                <button id="get-live-map-info"
+                        class="w-full mt-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
+                    Get Live Map Info
+                </button>
+            </div>
+
+            <div id="briefing-panel" class="mt-8 bg-blue-50 p-6 rounded-lg shadow-inner border border-blue-200 hidden panel-transition">
+                <h2 class="text-2xl font-bold text-blue-800 mb-4">Traffic Briefing:</h2>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/3">
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+                    <div class="md:w-2/3">
+                        <div id="briefing-summary" class="text-blue-700 leading-relaxed mb-4">
+                            <!-- Estimated time and route description will be here -->
+                        </div>
+                        <div id="briefing-text-content" class="text-blue-700 leading-relaxed mb-4">
+                            <p class="text-blue-500">Loading briefing...</p>
+                        </div>
+                        <div id="key-congestion-areas" class="text-blue-700 leading-relaxed">
+                            <!-- Key congestion areas will be listed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="daily-traffic-panel" class="mt-8 bg-purple-50 p-6 rounded-lg shadow-inner border border-purple-200 hidden panel-transition">
+                <h2 class="text-2xl font-bold text-purple-800 mb-4">Daily Traffic Outlook:</h2>
+                <div class="chart-container">
+                    <canvas id="dailyTrafficChart"></canvas>
+                </div>
+                <p class="text-purple-700 text-sm mt-4">
+                    This graph shows the expected traffic congestion in Kottakkal throughout the day (0-10 scale), based on typical patterns.
+                </p>
+            </div>
+
+            <!-- New: Historical Traffic Trends Panel -->
+            <div id="historical-traffic-panel" class="mt-8 bg-green-50 p-6 rounded-lg shadow-inner border border-green-200 hidden panel-transition">
+                <h2 class="text-2xl font-bold text-green-800 mb-4">Weekly Traffic Trends:</h2>
+                <div class="chart-container">
+                    <canvas id="historicalTrafficChart"></canvas>
+                </div>
+                <p class="text-green-700 text-sm mt-4">
+                    Average traffic congestion in Kottakkal throughout the week.
+                </p>
+            </div>
+
+            <!-- New: Issue Distribution Panel -->
+            <div id="issue-distribution-panel" class="mt-8 bg-red-50 p-6 rounded-lg shadow-inner border border-red-200 hidden panel-transition">
+                <h2 class="text-2xl font-bold text-red-800 mb-4">Reported Issue Distribution:</h2>
+                <div class="chart-container">
+                    <canvas id="issueDistributionChart"></canvas>
+                </div>
+                <p class="text-red-700 text-sm mt-4">
+                    Breakdown of reported issues in Kottakkal.
+                </p>
+            </div>
+
+            <!-- New: Fixed Route Hourly Travel Time Panel -->
+            <div id="fixed-route-travel-panel" class="mt-8 bg-indigo-50 p-6 rounded-lg shadow-inner border border-indigo-200 hidden panel-transition">
+                <h2 class="text-2xl font-bold text-indigo-800 mb-4">Travel Time: Kottakkal Bus Stand to Ayurveda Hospital</h2>
+                <div class="chart-container">
+                    <canvas id="fixedRouteTravelChart"></canvas>
+                </div>
+                <p class="text-indigo-700 text-sm mt-4">
+                    Estimated travel time for a common route throughout the day.
+                </p>
+            </div>
+
+            <!-- New: Alternative Routes Comparison Panel -->
+            <div id="alternative-routes-panel" class="mt-8 bg-yellow-50 p-6 rounded-lg shadow-inner border border-yellow-200 hidden panel-transition">
+                <h2 class="text-2xl font-bold text-yellow-800 mb-4">Alternative Routes Comparison:</h2>
+                <div class="chart-container">
+                    <canvas id="alternativeRoutesChart"></canvas>
+                </div>
+                <p class="text-yellow-700 text-sm mt-4">
+                    Comparison of estimated travel times and traffic scores for alternative routes.
+                </p>
+            </div>
+
+            <!-- New: Road Alerts Section -->
+            <div id="road-alerts-panel" class="mt-8 bg-blue-100 p-6 rounded-lg shadow-inner border border-blue-300 hidden panel-transition">
+                <h2 class="text-2xl font-bold text-blue-900 mb-4">🚨 Road Alerts 🚨</h2>
+                <div id="alerts-list" class="space-y-4">
+                    <!-- Alerts will be dynamically inserted here -->
+                </div>
+                <p class="text-blue-700 text-sm mt-4">
+                    Stay informed about road blockades and special events in Kottakkal.
+                </p>
+            </div>
+
+            <!-- Existing Report Issue Section -->
+            <div id="report-issue-panel" class="mt-8 bg-yellow-50 p-6 rounded-lg shadow-inner border border-yellow-200">
+                <h2 class="text-2xl font-bold text-yellow-800 mb-4">Report an Issue:</h2>
+                <div class="mb-4">
+                    <label for="issue-type" class="block text-sm font-medium text-gray-700 mb-2">Type of Issue:</label>
+                    <select id="issue-type"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition duration-200 ease-in-out shadow-sm">
+                        <option value="">Select an issue type</option>
+                        <option value="accident">Accident</option>
+                        <option value="pothole">Pothole</option>
+                        <option value="road_block">Road Block</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="issue-description" class="block text-sm font-medium text-gray-700 mb-2">Description (Optional):</label>
+                    <textarea id="issue-description" rows="3" placeholder="e.g., Car accident near Kottakkal bypass"
+                              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition duration-200 ease-in-out shadow-sm"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="issue-location" class="block text-sm font-medium text-gray-700 mb-2">Location (Google Maps Link or Coordinates):</label>
+                    <input type="text" id="issue-location" placeholder="e.g., https://goo.gl/maps/xyz123 or 10.9333, 76.0167"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition duration-200 ease-in-out shadow-sm">
+                </div>
+                <div class="mb-4">
+                    <label for="issue-image" class="block text-sm font-medium text-gray-700 mb-2">Upload Image (Optional):</label>
+                    <input type="file" id="issue-image" accept="image/*"
+                           class="w-full text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-100 file:text-yellow-700 hover:file:bg-yellow-200">
+                    <img id="report-image-preview" src="#" alt="Image Preview">
+                </div>
+                <button id="submit-report"
+                        class="w-full bg-gradient-to-r from-yellow-500 to-orange-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:from-yellow-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition duration-300 ease-in-out transform">
+                    Submit Report
+                </button>
+                <div id="report-message" class="mt-4 text-center hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-white text-center p-4 mt-auto">
+        <p>&copy; 2025 Smart Traffic Monitor. All rights reserved.</p>
+    </footer>
+
+    
+    <script src = "main.js"></script>
+</body>
+</html>
