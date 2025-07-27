@@ -23,3 +23,7 @@ A smart traffic monitoring system for Kottakkal made for Kotech Hackathan conduc
 ## Run Locally
 1. Clone this repo
 2. Open `index.html` in a browser
+
+## Screenshots
+
+<img width="2880" height="1632" alt="image" src="https://github.com/user-attachments/assets/d2777d5e-e2a1-4ed8-995c-be9f8ad3bd22" />
