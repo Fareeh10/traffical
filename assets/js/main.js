@@ -879,6 +879,6 @@ let trafficChart; // Variable to hold the route traffic score Chart.js instance
 
             
             document.getElementById("login-controller-button").addEventListener("click", function () {
-                window.location.href = "login-page.html"; // Replace with your actual login page URL
+                window.location.href = "pages/login-page.html"; // Replace with your actual login page URL
             });
         });
