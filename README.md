@@ -18,6 +18,7 @@ A smart traffic monitoring system for Kottakkal, offering real-time route briefi
 - `/assets/js` → JavaScript logic
 - `/pages` → HTML views
 - `/assets/image.png` → Image file
+- `index.html` → main html file
 
 ## Run Locally
 1. Clone this repo
