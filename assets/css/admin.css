@@ -1,1 +1,150 @@
+body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(to bottom right, #e0f2fe, #e9d5ff); /* Light blue to light purple gradient */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+        }
 
+        
+
+
+/* For smaller screens, adjust the button position */
+@media (max-width: 640px) {
+    .mark-resolved-btn {
+        position: relative;
+        top: auto;
+        right: auto;
+        align-self: flex-end;
+        margin-top: 0.5rem;
+    }
+}
+
+        /* Custom scrollbar for general overflow */
+        .overflow-y-auto::-webkit-scrollbar {
+            width: 8px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Style for the map preview image */
+        #map-preview-image {
+            width: 100%;
+            height: 250px; /* Fixed height for consistency */
+            object-fit: cover; /* Ensures image covers the area */
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0; /* Light border */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        /* Style for image preview in report section */
+        #report-image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            display: none; /* Hidden by default */
+        }
+        /* Chart container height */
+        .chart-container {
+            height: 250px; /* Consistent height for all new charts */
+            width: 100%;
+        }
+        /* Alert card styling */
+        .alert-card {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            margin-bottom: 1rem;
+            border-left: 5px solid;
+            transition: all 0.3s ease-in-out; /* Smooth transitions for alerts */
+        }
+        .alert-card.vip { border-color: #EF4444; /* Red */ }
+        .alert-card.construction { border-color: #F59E0B; /* Orange */ }
+        .alert-card.protest { border-color: #3B82F6; /* Blue */ }
+        .alert-card.other { border-color: #6B7280; /* Gray */ }
+        .alert-card.resolved { border-color: #10B981; /* Green */ opacity: 0.7; }
+
+        /* Fade-in/out transitions for panels */
+        .panel-transition {
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .panel-transition.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Alert card styling */
+.alert-card {
+    position: relative; /* Needed for absolute positioning of button */
+    background-color: #fff;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    margin-bottom: 1rem;
+    border-left: 5px solid;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden; /* Prevents content from overflowing rounded corners */
+}
+
+/* Button positioning */
+.mark-resolved-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: #10B981; /* Green color */
+    color: white;
+    border: none;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.mark-resolved-btn:hover {
+    background-color: #059669; /* Darker green on hover */
+    transform: translateY(-1px);
+}
+
+/* Alert type colors */
+.alert-card.vip { border-color: #EF4444; /* Red */ }
+.alert-card.construction { border-color: #F59E0B; /* Orange */ }
+.alert-card.protest { border-color: #3B82F6; /* Blue */ }
+.alert-card.other { border-color: #6B7280; /* Gray */ }
+.alert-card.resolved { border-color: #10B981; /* Green */ opacity: 0.7; }
+
+/* Content area padding to prevent overlap */
+.alert-content {
+    padding-right: 4rem; /* Make space for the button */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+    .mark-resolved-btn {
+        position: relative;
+        top: auto;
+        right: auto;
+        display: block;
+        margin-top: 0.75rem;
+        width: 100%;
+    }
+    .alert-content {
+        padding-right: 1rem;
+    }
+}
