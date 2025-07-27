@@ -1,16 +1,16 @@
 # Traffikkal
 
-A smart traffic monitoring system for Kottakkal, offering real-time route briefings, congestion insights, and issue reporting.
+A smart traffic monitoring system for Kottakkal made for Kotech Hackathan conducted in kottakkal arts and science college, offering real-time route briefings, congestion insights, and issue reporting.
 
 ## Features
 - Live traffic preview with charts
 - Issue reporting with image upload
-- Road alerts for VIP movement, protests, etc.
+- Road alerts interface for VIP movement, protests, etc.
 - Admin dashboard for resolving reports
 
 ## Tech Stack
 - HTML, Tailwind CSS
-- JavaScript (Vanilla)
+- JavaScript
 - Chart.js for visualization
 
 ## File Structure
